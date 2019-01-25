@@ -35,14 +35,11 @@ public class RegexTesting {
 
             if (matcher.find()) {
                 System.out.println(matcher.group(1) +" "+ matcher.group(2));
-                areaName = "";
+                areaName = line.replace(matcher.group(1), "");
+                areaName = areaName.replace(matcher.group(2), "");
                 System.out.println("Name = " + areaName);
             }
-
-
-
         }
-
     }
 }
 

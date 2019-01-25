@@ -35,4 +35,12 @@ public class RegionList {
     public String toString() {
         return x.toString();
     }
+
+    public String printCodes() {
+        return x.get(0).toString();
+    }
+
+    public String printNames() {
+        return x.get(1).toString();
+    }
 }

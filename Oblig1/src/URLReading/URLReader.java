@@ -44,12 +44,24 @@ public class URLReader {
                 if (matcher.find()) { //finds the region codes
                     regionCode = matcher.group();
                     regionList.addRegionCode(regionCode);
-                    //System.out.println(regionCode);
+                }
+
+                regex = "(<[^>]+>).*?(<[^>]+>)";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(inputLine);
+
+                if (matcher.find()) {
+                    regionName = inputLine.replace(matcher.group(1), "");
+                    regionName = regionName.replace(matcher.group(2), "");
+
+                    if (!regionName.equals("select a location")) //Probably at better way to do this.
+                        regionList.addRegionName(regionName);
                 }
             }
         }
         in.close();
-        System.out.println(regionList.toString());
+        System.out.println(regionList.printCodes());
+        System.out.println(regionList.printNames());
     }
 
 
@@ -70,24 +82,5 @@ public class URLReader {
 
     }
 }
-
-/**
- * REGEX - NOTATER
- */
-
-//AB //([A-Z0-9]{2,4})
-//ABC
-//AB1
-//AB1C
-//ABCD
-
-//AB-CD //([A-Z]{2}-[A-Z0-9]{2,4})
-//AB-CDE
-//AB-CD1
-//AB-CD1E
-//AB-CDE1
-
-// ^<option value="
-// ^ Til å finne begynnelsen
 
 

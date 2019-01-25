@@ -6,12 +6,15 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
-import java.util.Set;
+
+/**
+ * Denne koden fikk vi fra Tor Ramstad. Kan være smart å ha til senere prosjekter, da det mest sannsynlig er mer effektivt
+ * enn vår løsning, men til denne oppgaven så skulle vi helst ikke bruke ett rammeverk som f.eks JSoup.
+ */
 
 public class WorldTimeServerApi {
     private static String QUERY_URL = "https://www.worldtimeserver.com/search.aspx?searchfor=%s";
