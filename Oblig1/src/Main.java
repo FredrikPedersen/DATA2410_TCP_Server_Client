@@ -23,6 +23,6 @@ import URLReading.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        URLReader.reader();
+        URLReader.findTime();
     }
 }

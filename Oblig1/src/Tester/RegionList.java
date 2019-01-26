@@ -1,10 +1,14 @@
-package URLReading;
+package Tester;
 
-import Exceptions.RegionNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is for testing purposses only, we do not need to store ALL the countries and codes
+ */
+
 public class RegionList {
+
 
     List<List<String>> x;
 
@@ -22,13 +26,14 @@ public class RegionList {
         x.get(1).add(name);
     }
 
-    public String findRegionCode(String regionName) throws RegionNotFoundException {
+    public String findRegionCode(String regionName){
         for (int i = 0; i < x.get(1).size(); i++) {
             if (x.get(1).get(i).compareTo(regionName) == 0) {
                 return x.get(0).get(i);
             }
         }
-        throw new RegionNotFoundException("Region not found!");
+        System.err.println("Region not found");
+        return null;
     }
 
     @Override
