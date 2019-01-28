@@ -12,54 +12,26 @@ public class URLReader {
 
     private static URL worldTimeServerURL;
     private static BufferedReader in;
-    private static String regex;
-    private static String regionCode;
-    private static String regionName;
     private static String inputLine;
     private static String userRegion;
-    private static Pattern pattern;
-    private static Matcher matcher;
     private static String time;
+    private static String date;
+    private static Matcher matcher;
 
-    public static void findTime() throws IOException {
-        reader();
-
-        if (!regionName.equals(userRegion)) {
-                System.err.println("Couldn't find your specified area. Did you write it correctly? " +
-                        "Remember that in countries with several time zones you will have to specify your state or county. E.g. United States - South Dakota (western)");
-        }
-
-        URL areaTimeURL = createURL("https://www.worldtimeserver.com/current_time_in_" +regionCode+".aspx");
-        createBufferedReader(areaTimeURL);
-
-        while ((inputLine = in.readLine()) != null) {
-            inputLine = inputLine.trim();
-            findRegionTime();
-        }
-    }
-
-    private static void reader() throws IOException {
-        worldTimeServerURL = createURL("https://www.worldtimeserver.com/");
-        createBufferedReader(worldTimeServerURL);
+    public static String reader() throws IOException {
         userRegion = UserInput.getUserInput();
+        worldTimeServerURL = createURL("https://www.worldtimeserver.com/search.aspx?searchfor="+userRegion);
+        createBufferedReader(worldTimeServerURL);
 
         while((inputLine = in.readLine()) != null) {
-            inputLine = inputLine.trim(); //removes any blank spaces at the beginning and enda of the string
+            inputLine = inputLine.trim(); //removes any blank spaces at the beginning and end of the string
 
-            regex = "^<option value=\"";
-            pattern = Pattern.compile(regex);
-            matcher = pattern.matcher(inputLine);
-
-            if (matcher.find()) { //checks if the line of HTML-code contains area codes and names
-                findRegionCode();
-                findRegionName();
-
-                if (regionName.toLowerCase().trim().equals(userRegion.toLowerCase().trim())) {
-                    break;
-                }
-            }
+            findRegionTime();
+            findRegionDate();
         }
+
         in.close();
+        return date + " " + time;
     }
 
     private static URL createURL(String url) {
@@ -75,35 +47,25 @@ public class URLReader {
         try {
             in = new BufferedReader(new InputStreamReader(url.openStream()));
         } catch (IOException e) {
-            System.err.println("IOException while creating a BufferedReader in method createBufferedReader");
-        }
-    }
-
-    private static void findRegionCode() {
-        regex = "([A-Z0-9-]{2,6})";
-        pattern = Pattern.compile(regex);
-        matcher = pattern.matcher(inputLine);
-
-        if (matcher.find()) { //finds the region codes
-            regionCode = matcher.group();
-        }
-    }
-
-    private static void findRegionName() {
-        regex = "(<[^>]+>).*?(<[^>]+>)";
-        pattern = Pattern.compile(regex);
-        matcher = pattern.matcher(inputLine);
-
-        if (matcher.find()) {
-            regionName = inputLine.replace(matcher.group(1), "");
-            regionName = regionName.replace(matcher.group(2), "");
+            e.printStackTrace();
         }
     }
 
     private static void findRegionTime() throws IOException {
-        if (inputLine.equals("<span id=\"theTime\" class=\"fontTS\">\n")) {
-            time = in.readLine();
-            System.out.println(time);
+        Pattern regex = Pattern.compile("<span id=\"theTime\" class=\"fontTS\">", Pattern.MULTILINE | Pattern.DOTALL);
+        matcher = regex.matcher(inputLine);
+
+        if (matcher.find()) {
+            time = in.readLine().trim();
+        }
+    }
+
+    private static void findRegionDate() throws IOException{
+        Pattern regex = Pattern.compile("^([A-Za-z]{6,9}, [A-Za-z]{3,9} [0-9]{2}, [0-9]{4})");
+        matcher = regex.matcher(inputLine);
+
+        if (matcher.find()) {
+            date = inputLine;
         }
     }
 }
