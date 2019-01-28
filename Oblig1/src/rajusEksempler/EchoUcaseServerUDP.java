@@ -1,3 +1,5 @@
+
+package rajusEksempler;
 /**
  * Socket programming example: UDP Server
  * DATA/ITPE2410 Networking and Cloud Computing, Spring 2019

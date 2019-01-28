@@ -10,17 +10,16 @@ import java.util.regex.Pattern;
 
 public class URLReader {
 
-    private static URL worldTimeServerURL;
     private static BufferedReader in;
     private static String inputLine;
-    private static String userRegion;
     private static String time;
     private static String date;
     private static Matcher matcher;
 
     public static String reader() throws IOException {
-        userRegion = UserInput.getUserInput();
-        worldTimeServerURL = createURL("https://www.worldtimeserver.com/search.aspx?searchfor="+userRegion);
+        String userRegion = UserInput.getUserInput();
+        userRegion = userRegion.replaceAll(" ", "+");
+        URL worldTimeServerURL = createURL("https://www.worldtimeserver.com/search.aspx?searchfor="+userRegion);
         createBufferedReader(worldTimeServerURL);
 
         while((inputLine = in.readLine()) != null) {
@@ -31,6 +30,11 @@ public class URLReader {
         }
 
         in.close();
+        if (date == null || time == null) {
+            return ("I can't find anything for that location. Please check your spelling. If you live in a country with several time zones, please type in" +
+                    "your closest major city or capitol");
+
+        }
         return date + " " + time;
     }
 
@@ -60,7 +64,7 @@ public class URLReader {
         }
     }
 
-    private static void findRegionDate() throws IOException{
+    private static void findRegionDate(){
         Pattern regex = Pattern.compile("^([A-Za-z]{6,9}, [A-Za-z]{3,9} [0-9]{2}, [0-9]{4})");
         matcher = regex.matcher(inputLine);
 

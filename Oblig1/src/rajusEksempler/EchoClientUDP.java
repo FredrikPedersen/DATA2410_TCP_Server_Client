@@ -3,6 +3,8 @@
  * DATA/ITPE2410 Networking and Cloud Computing, Spring 2019
  * Raju Shrestha, OsloMet
  **/
+package rajusEksempler;
+
 import java.io.*;
 import java.net.*;
 import java.util.Arrays;

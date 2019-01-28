@@ -3,7 +3,7 @@
  * DATA/ITPE2410 Networking and Cloud Computing, Spring 2019
  * Raju Shrestha, OsloMet
  **/
-package multiclient.server;
+package rajusEksempler.MultiClientServerJavaFX;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
