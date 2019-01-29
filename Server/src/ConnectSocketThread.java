@@ -16,11 +16,10 @@ public class ConnectSocketThread extends Thread{
     @Override
     public void run() {
         try(
-        PrintWriter out = new PrintWriter(connectSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(connectSocket.getInputStream()));
-        )
+            PrintWriter out = new PrintWriter(connectSocket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(connectSocket.getInputStream()));
+            )
         {
-
             InetAddress ip = connectSocket.getInetAddress();
             int cp = connectSocket.getPort();
             System.out.println("Connection Established with " + ip + ":" + cp);
