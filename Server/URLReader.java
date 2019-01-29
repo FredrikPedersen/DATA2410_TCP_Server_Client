@@ -20,9 +20,9 @@ public class URLReader {
      *
      * @return the date and time. If no time or date is found in the HTML, returns null.
      */
-    public static String reader() {
+    public static String reader(String input) {
 
-        String userRegion = UserInput.getUserInput(); //Where do the user want to see what time and date it is?
+        String userRegion = input; //Where do the user want to see what time and date it is?
         userRegion = userRegion.replaceAll(" ", "+"); //Replaces any blank spaces in the user input with a +. Eg New York = New+York
 
         try {
