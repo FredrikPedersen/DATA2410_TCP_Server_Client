@@ -41,20 +41,20 @@ public class MultiClientServerTCP {
     }
 
     private static class ClientHandler extends Thread {
-        private Socket clientSocket;
+        private Socket clientHandlerSocket;
         private PrintWriter out;
         private BufferedReader in;
 
         public ClientHandler(Socket socket) {
-            this.clientSocket = socket;
+            this.clientHandlerSocket = socket;
         }
 
         public void run() {
             try {
-                out = new PrintWriter(clientSocket.getOutputStream(), true); //printWriter for å skrive meldinger til klienten
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //bufferedReader til å lese meldinger fra klienten
-                InetAddress ip = clientSocket.getInetAddress();
-                int cp = clientSocket.getPort();
+                out = new PrintWriter(clientHandlerSocket.getOutputStream(), true); //printWriter for å skrive meldinger til klienten
+                in = new BufferedReader(new InputStreamReader(clientHandlerSocket.getInputStream())); //bufferedReader til å lese meldinger fra klienten
+                InetAddress ip = clientHandlerSocket.getInetAddress();
+                int cp = clientHandlerSocket.getPort();
                 System.out.println("Connection Established with " + ip + ":" + cp);
                 System.out.println("Waiting for query...");
 
@@ -70,7 +70,7 @@ public class MultiClientServerTCP {
 
                 in.close();
                 out.close();
-                clientSocket.close(); //Stenger leseren, skriveren og socketen når forespørselen er utført
+                clientHandlerSocket.close(); //Stenger leseren, skriveren og socketen når forespørselen er utført
 
             }catch (IOException e) {
                 e.printStackTrace();
